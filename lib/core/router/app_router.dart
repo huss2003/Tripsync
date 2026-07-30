@@ -1,28 +1,33 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'app_routes.dart';
+import '../../features/auth/presentation/auth_notifier.dart';
+import '../../features/auth/presentation/phone_entry_screen.dart';
+import '../../features/auth/presentation/otp_verification_screen.dart';
+import '../../features/auth/presentation/profile_setup_screen.dart';
+import 'app_router_stubs.dart';
 
-Widget _stub(String title) => Scaffold(
-  appBar: AppBar(title: Text(title)),
-  body: Center(child: Text(title)),
-);
+final appRouterProvider = Provider<GoRouter>((ref) {
+  final authState = ref.watch(authNotifierProvider);
 
-final appRouter = GoRouter(
-  initialLocation: '/splash',
-  routes: [
-    GoRoute(path: '/splash', name: AppRoutes.splash, builder: (_, _) => _stub('Splash')),
-    GoRoute(path: '/phone-entry', name: AppRoutes.phoneEntry, builder: (_, _) => _stub('Phone Entry')),
-    GoRoute(path: '/otp', name: AppRoutes.otpVerification, builder: (_, _) => _stub('OTP Verification')),
-    GoRoute(path: '/profile-setup', name: AppRoutes.profileSetup, builder: (_, _) => _stub('Profile Setup')),
-    GoRoute(path: '/home', name: AppRoutes.home, builder: (_, _) => _stub('Home')),
-    GoRoute(path: '/create-trip', name: AppRoutes.createTrip, builder: (_, _) => _stub('Create Trip')),
-    GoRoute(path: '/generating', name: AppRoutes.packageGeneration, builder: (_, _) => _stub('Generating Packages')),
-    GoRoute(path: '/compare', name: AppRoutes.packageComparison, builder: (_, _) => _stub('Compare Packages')),
-    GoRoute(path: '/package/:id', name: AppRoutes.packageDetail, builder: (_, state) => _stub('Package ${state.pathParameters['id']}')),
-    GoRoute(path: '/itinerary', name: AppRoutes.itinerary, builder: (_, _) => _stub('Itinerary')),
-    GoRoute(path: '/history', name: AppRoutes.tripHistoryList, builder: (_, _) => _stub('Trip History')),
-    GoRoute(path: '/history/:id', name: AppRoutes.tripHistoryDetail, builder: (_, state) => _stub('Trip ${state.pathParameters['id']}')),
-    GoRoute(path: '/settings', name: AppRoutes.settings, builder: (_, _) => _stub('Settings')),
-    GoRoute(path: '/error', name: AppRoutes.errorConnectivity, builder: (_, _) => _stub('No Connectivity')),
-  ],
-);
+  return GoRouter(
+    initialLocation: '/splash',
+    redirect: (context, state) {
+      final loggedIn = authState.status == AuthStatus.authenticated;
+      final onAuthScreen = state.matchedLocation == '/phone-entry' ||
+          state.matchedLocation.startsWith('/otp') ||
+          state.matchedLocation == '/profile-setup';
+
+      if (state.matchedLocation == '/splash') return null;
+      if (!loggedIn && !onAuthScreen) return '/phone-entry';
+      if (loggedIn && onAuthScreen) return '/home';
+      return null;
+    },
+    routes: [
+      GoRoute(path: '/splash', builder: (_, _) => const StubScreen('Splash')),
+      GoRoute(path: '/phone-entry', builder: (_, _) => const PhoneEntryScreen()),
+      GoRoute(path: '/otp', builder: (_, state) => OtpVerificationScreen(phone: state.extra as String? ?? '')),
+      GoRoute(path: '/profile-setup', builder: (_, _) => const ProfileSetupScreen()),
+      ...authRoutes(),
+    ],
+  );
+});

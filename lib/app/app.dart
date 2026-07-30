@@ -5,19 +5,20 @@ import '../core/theme/app_theme.dart';
 import '../core/router/app_router.dart';
 import '../l10n/app_localizations.dart';
 
-/// TripSync root widget — wires theme, router, Riverpod, and i18n.
 class TripSyncApp extends ConsumerWidget {
   const TripSyncApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(appRouterProvider);
+
     return MaterialApp.router(
       title: 'TripSync',
       debugShowCheckedModeBanner: false,
       theme: tripsyncTheme(brightness: Brightness.light),
       darkTheme: tripsyncTheme(brightness: Brightness.dark),
       themeMode: ThemeMode.system,
-      routerConfig: appRouter,
+      routerConfig: router,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
