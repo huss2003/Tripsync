@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../features/ai_chat/presentation/chat_panel.dart';
 import 'packages_provider.dart';
 
 /// C.9 Package Detail — full breakdown of a selected package.
@@ -85,7 +86,12 @@ class PackageDetailScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpacing.sm),
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () => showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: colors.bgPrimary,
+                  builder: (_) => ChatPanel(packageId: packageId),
+                ),
                 icon: const Icon(Icons.auto_awesome),
                 label: const Text('Refine with AI'),
               ),
