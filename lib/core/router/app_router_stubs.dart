@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'app_routes.dart';
 import '../../features/trip_creation/presentation/home_screen.dart';
+import '../../features/trip_creation/presentation/create_trip_screen.dart';
 
 /// C.16 Error / No Connectivity.
 class ErrorScreen extends StatelessWidget {
@@ -39,7 +40,7 @@ class StubScreen extends StatelessWidget {
 
 List<RouteBase> authRoutes() => [
   GoRoute(path: '/home', name: AppRoutes.home, builder: (_, _) => const HomeScreen()),
-  GoRoute(path: '/create-trip', name: AppRoutes.createTrip, builder: (_, _) => const StubScreen('Create Trip')),
+  GoRoute(path: '/create-trip', name: AppRoutes.createTrip, builder: (_, _) => const CreateTripScreen()),
   GoRoute(path: '/generating', name: AppRoutes.packageGeneration, builder: (_, _) => const StubScreen('Generating Packages')),
   GoRoute(path: '/compare', name: AppRoutes.packageComparison, builder: (_, _) => const StubScreen('Compare Packages')),
   GoRoute(path: '/package/:id', name: AppRoutes.packageDetail, builder: (_, state) => StubScreen('Package ${state.pathParameters['id']}')),
