@@ -1,0 +1,35 @@
+# Flutter & Dart
+.dart_tool/
+.pub/
+build/
+*.g.dart
+*.freezed.dart
+generated/
+
+# Environment
+.env
+*.env.local
+*.env.dev
+*.env.staging
+*.env.prod
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Firebase (generated per-platform, not committed)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
+# FlutterFire
+firebase_options.dart
+
+# Supabase CLI
+supabase/.branches
+supabase/.temp
