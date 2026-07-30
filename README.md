@@ -2,6 +2,8 @@
 
 > AI-powered business travel planning — generate, compare, and refine trip packages.
 
+[![CI](https://github.com/huss2003/Tripsync/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/huss2003/Tripsync/actions/workflows/ci.yml)
+
 **MVP**: India market, business travellers. Enter trip constraints → get 3 AI-generated packages (Cheap/Balanced/Premium) → refine via chat → export to calendar.
 
 ## Stack
